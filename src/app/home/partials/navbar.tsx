@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -6,13 +8,29 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { navigationData } from "@/constant/navigation-data";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 const Navbar = () => {
+  const { scrollY } = useScroll();
+  const background = useTransform(
+    scrollY,
+    [0, 100],
+    ["rgba(12,13,13,0", "rgba(12,13,13,0.5)"],
+  );
+  const backdropBlur = useTransform(
+    scrollY,
+    [0, 100],
+    ["blur(0px)", "blur(10px)"],
+  );
   return (
-    <header className="fixed top-0 z-50 w-full" aria-label="Site header">
+    <motion.header
+      style={{ background, backdropFilter: backdropBlur }}
+      className="fixed top-0 z-50 w-full"
+      aria-label="Site header"
+    >
       <div className="flex-between custom-container h-16 md:h-21">
         {/* logo */}
         <Image
@@ -73,7 +91,7 @@ const Navbar = () => {
           </SheetContent>
         </Sheet>
       </div>
-    </header>
+    </motion.header>
   );
 };
 
